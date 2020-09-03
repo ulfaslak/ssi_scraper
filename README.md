@@ -19,3 +19,5 @@ Finally, execute the script
 ```bash
 $ python scrape_ssi_data.py
 ```
+
+The script now starts populating the `data` folder.
