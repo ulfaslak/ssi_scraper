@@ -7,12 +7,15 @@ import zipfile, urllib
 # -------
 IN_DIR = 'data/'
 OUT_DIR = 'data/'
-URL = "https://www.ssi.dk/sygdomme-beredskab-og-forskning/sygdomsovervaagning/c/covid19-overvaagning/arkiv-med-overvaagningsdata-for-covid19"
+URL = "https://covid19.ssi.dk/overvagningsdata/download-fil-med-overvaagningdata"
+
+# Create data output folder
+os.makedirs(OUT_DIR, exist_ok=True)
 
 
 # Existing files names
 # --------------------
-existing_files = [f for f in os.listdir(IN_DIR) if f[:4] == "Data"]
+existing_files = [f for f in os.listdir(IN_DIR) if f[:4] == "data"]
 
 
 # Scrape new files
@@ -20,14 +23,17 @@ existing_files = [f for f in os.listdir(IN_DIR) if f[:4] == "Data"]
 
 # Get urls
 data_urls = re.findall(
-    r"https://files.ssi.dk/Data-\w+-\w+-\d{8}-\w{4}",
+    r"https://files.ssi.dk/covid19/overvagning/data/data-\w+-\w+-\d{8}-\w{4}",
     rq.get(URL).text
 )
+
+# Remove urls that occur twice
+data_urls = [url for i, url in enumerate(data_urls) if url not in data_urls[:i]]
 
 # Remove urls for files already downloaded
 data_urls = [
     url for url in data_urls
-    if url[21:] not in existing_files
+    if url[46:] not in existing_files
 ]
 
 # Download data
@@ -35,7 +41,7 @@ bad_urls = []
 for url in data_urls:
 
     # Folder path and create folder
-    out_dir = OUT_DIR + url[21:]
+    out_dir = OUT_DIR + url[46:]
     os.mkdir(out_dir)
     
     # Download
