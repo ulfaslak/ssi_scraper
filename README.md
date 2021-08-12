@@ -5,12 +5,12 @@ It first looks to see if a repository is already downloaded, then downloads it i
 
 ## Usage
 
-First downlaod this repository
+First download this repository
 ```bash
 $ git clone https://github.com/ulfaslak/ssi_scraper
 ```
 
-Then cd into it
+Then `cd` into it
 ```bash
 $ cd ssi_scraper
 ```
